@@ -1,0 +1,4 @@
+#!/bin/bash
+
+SONG_URL=$(ruby /Users/ryanhelsing/Projects/bash/song/term_to_youtube_link.rb "$1")
+youtube-dl $SONG_URL -o "/Users/ryanhelsing/Music/%(title)s.%(ext)s" -x --audio-format "mp3" --prefer-ffmpeg
