@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require 'nokogiri'
+require 'open-uri'
+artist = ARGV[0]
+artist = artist.downcase.tr(" ", "+")
+doc = Nokogiri::HTML(open("http://www.last.fm/music/#{artist}/+charts?rangetype=6month&subtype=tracks"))
+songs = doc.css("tbody tr td div a")
+processes = []
+(0...10).each do |i|
+ 	# puts songs[i].content
+ 	processes << Process.fork do
+	  response = %x( song "#{artist} #{songs[i].content}")
+	  puts response
+	  exit
+	end
+end
+
+puts "parent, pid #{Process.pid}, waiting on child pid #{processes.inspect}"
+Process.wait
+puts "parent exiting"
