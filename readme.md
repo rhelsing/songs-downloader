@@ -31,3 +31,4 @@ songs "taylor swift"
 There are definitely some bugs. I could use some help making this more robust and accurate. Feel free to submit pull requests!
 
 * agnostic directory structure. ~/Music instead
+* add album command
