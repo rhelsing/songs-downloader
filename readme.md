@@ -7,6 +7,7 @@ Downloads songs from youtube, imports proper meta-data and album art, adds to iT
 ```command
 song "bonobo kiara"
 songs "taylor swift"
+album "in rainbows"
 ```
 
 * song "title and artist" :: downloads an individual track
