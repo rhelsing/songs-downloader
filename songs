@@ -12,7 +12,7 @@ else
 	song_limit = ARGV[1]
 end
 artist = artist.downcase.tr(" ", "+")
-puts "looking up top songs..."
+puts "looking up top #{song_limit} songs..."
 doc = Nokogiri::HTML(open("http://www.last.fm/music/#{artist}/+charts?rangetype=6month&subtype=tracks"))
 songs = doc.css("tbody tr td div a")
 processes = []

@@ -5,7 +5,7 @@ Downloads songs from youtube, imports proper meta-data and album art, adds to iT
 * usage:
 
 ```command
-song "bonobo kiara"
+song "bonobo kiara" [optional number of songs to download | default = 10]
 songs "taylor swift"
 ```
 
