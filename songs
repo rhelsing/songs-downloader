@@ -1,13 +1,23 @@
 #!/usr/bin/env ruby
 require 'nokogiri'
 require 'open-uri'
+if ARGV.empty?
+  puts "You must supply an artist name as an argument"
+  exit
+end
 artist = ARGV[0]
+if ARGV.length == 1
+	song_limit = 10
+else
+	song_limit = ARGV[1]
+end
 artist = artist.downcase.tr(" ", "+")
+puts "looking up top songs..."
 doc = Nokogiri::HTML(open("http://www.last.fm/music/#{artist}/+charts?rangetype=6month&subtype=tracks"))
 songs = doc.css("tbody tr td div a")
 processes = []
 puts "attempting to download:"
-(0...10).each do |i|
+(0...song_limit.to_i).each do |i|
  	puts songs[i].content
  	processes << Process.fork do
 	  response = %x( song "#{artist} #{songs[i].content}")
