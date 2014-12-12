@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 require 'nokogiri'
 require 'open-uri'
+
+USER_DIRECTORY = "/Users/ryanhelsing"
+
 song = ARGV[0]
 song = song.downcase.tr(" ", "+")
 doc = Nokogiri::HTML(open("https://www.youtube.com/results?search_query=#{song}"))
@@ -41,17 +44,17 @@ rescue
 end
 
 temp_file = (0...16).map { (65 + rand(26)).chr }.join
-response = %x( youtube-dl #{song_url} -o "/Users/ryanhelsing/Music/tmp/#{temp_file}.%(ext)s" -x --audio-format "mp3" --prefer-ffmpeg )
+response = %x( youtube-dl #{song_url} -o "~/Music/tmp/#{temp_file}.%(ext)s" -x --audio-format "mp3" --prefer-ffmpeg )
 
 puts response
 
 require "mp3info"
 require "open-uri"
 begin
-Mp3Info.open("/Users/ryanhelsing/Music/tmp/#{temp_file}.mp3") do |mp3|
-  mp3.tag.title = "#{title}"
-  mp3.tag.artist = "#{artist}"
-  mp3.tag.album = "#{album.content}"
+Mp3Info.open("#{USER_DIRECTORY}/Music/tmp/#{temp_file}.mp3") do |mp3|
+  mp3.tag.title = "#{URI.unescape(title)}".strip
+  mp3.tag.artist = "#{URI.unescape(artist)}".strip
+  mp3.tag.album = "#{URI.unescape(album.content)}".strip
   open('image.png', 'wb') do |file|
   	mp3.tag2.add_picture(open(art).read)
   end
@@ -60,8 +63,10 @@ rescue
 end
 
 # rename file
-new_name = "/Users/ryanhelsing/Music/iTunes/iTunes\ Media/Automatically\ Add\ to\ iTunes.localized/#{artist} - #{title}.mp3"
-File.rename("/Users/ryanhelsing/Music/tmp/#{temp_file}.mp3", new_name)
+# new_name = "~/Music/iTunes/iTunes\ Media/Automatically\ Add\ to\ iTunes.localized/#{artist} - #{title}.mp3"
+# File.rename("~/Music/tmp/#{temp_file}.mp3", new_name)
+require 'fileutils'
+FileUtils.mv("#{USER_DIRECTORY}/Music/tmp/#{temp_file}.mp3", "#{USER_DIRECTORY}/Music/iTunes/iTunes\ Media/Automatically\ Add\ to\ iTunes.localized/#{artist} - #{title}.mp3")
 #puts "MOVING TO AUTO ADD"
-#response = %x( cp #{new_name} /Users/ryanhelsing/Music/iTunes/iTunes\ Media/Automatically\ Add\ to\ iTunes.localized/#{artist} - #{title}.mp3)
+#response = %x( cp #{new_name} ~/Music/iTunes/iTunes\ Media/Automatically\ Add\ to\ iTunes.localized/#{artist} - #{title}.mp3)
 #puts response
