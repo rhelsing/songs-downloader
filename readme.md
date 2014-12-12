@@ -34,5 +34,5 @@ album "in rainbows"
 ## Want to help?
 There are definitely some bugs. I could use some help making this more robust and accurate. Feel free to submit pull requests!
 
-* agnostic directory structure. ~/Music instead
-* add album command
+##todo
+* add track-listing meta
