@@ -32,4 +32,3 @@ There are definitely some bugs. I could use some help making this more robust an
 
 * agnostic directory structure. ~/Music instead
 * add album command
-* rename files to match eachother

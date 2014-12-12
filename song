@@ -1,2 +1,2 @@
 #!/bin/bash
-/Users/ryanhelsing/Projects/bash/song/music.rb "$1"
+ruby /Users/ryanhelsing/Projects/bash/song/song.rb "$1"
