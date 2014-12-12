@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+require 'nokogiri'
+require 'open-uri'
+if ARGV.empty?
+  puts "You must supply an artist and an album name as an argument"
+  exit
+end
+album = ARGV[0]
+album = album.downcase.tr(" ", "+")
+doc = Nokogiri::HTML(open("http://www.last.fm/search?q=#{album}&type=album"))
+link = doc.css("ul.albums li div strong a").first['href']
+album_page = Nokogiri::HTML(open("http://www.last.fm#{link}"))
+songs = album_page.css("td.subjectCell a span")
+#get artist
+chop = link.gsub('/music/', "")
+artist = chop.split("/").first
+artist = artist.gsub('+', " ")
+
+processes = []
+puts "attempting to download:"
+(0...songs.length).each do |i|
+ 	puts songs[i].content
+ 	processes << Process.fork do
+	  response = %x( song "#{artist} #{songs[i].content}")
+	  puts response
+	  exit
+	end
+end
+
+puts "parent, pid #{Process.pid}, waiting on children #{processes.inspect}"
+Process.waitall
+puts "parent exiting"
