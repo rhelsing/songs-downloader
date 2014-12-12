@@ -5,12 +5,13 @@ Downloads songs from youtube, imports proper meta-data and album art, adds to iT
 * usage:
 
 ```command
-song "bonobo kiara" [optional number of songs to download | default = 10]
+song "bonobo kiara"
 songs "taylor swift"
 ```
 
 * song "title and artist" :: downloads an individual track
-* songs "artist" :: downloads the top 10 tracks for an artist (based on last.fm for the last 6 months)
+* songs "artist" :: downloads the top 10 (default) tracks for an artist (based on last.fm for the last 6 months)
+	* specify a different amount of songs to download with:: songs "artist name" [number]
 
 ## Installation
 
