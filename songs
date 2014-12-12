@@ -6,8 +6,9 @@ artist = artist.downcase.tr(" ", "+")
 doc = Nokogiri::HTML(open("http://www.last.fm/music/#{artist}/+charts?rangetype=6month&subtype=tracks"))
 songs = doc.css("tbody tr td div a")
 processes = []
+puts "attempting to download:"
 (0...10).each do |i|
- 	# puts songs[i].content
+ 	puts songs[i].content
  	processes << Process.fork do
 	  response = %x( song "#{artist} #{songs[i].content}")
 	  puts response
@@ -15,6 +16,6 @@ processes = []
 	end
 end
 
-puts "parent, pid #{Process.pid}, waiting on child pid #{processes.inspect}"
-Process.wait
+puts "parent, pid #{Process.pid}, waiting on children #{processes.inspect}"
+Process.waitall
 puts "parent exiting"
