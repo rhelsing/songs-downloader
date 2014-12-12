@@ -13,12 +13,14 @@ album "in rainbows"
 * song "title and artist" :: downloads an individual track
 * songs "artist" :: downloads the top 10 (default) tracks for an artist (based on last.fm for the last 6 months)
 	* specify a different amount of songs to download with:: songs "artist name" [number]
+* album "title" :: downloads album. album artist is optional but necessary to differentiate albums with similar names.
 
 ## Installation
 
 1. Clone repository
 2. Add commands to path
-3. Modify each file's directory path calls to match your system.
+3. CHMOD 755 executables
+4. Modify USER_DIRECTORY in song
 
 ## Dependencies
 
