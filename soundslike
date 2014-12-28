@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+require 'nokogiri'
+require 'open-uri'
+if ARGV.empty?
+  puts "You must supply an artist name as an argument"
+  exit
+end
+artist = ARGV[0]
+if ARGV.length == 1
+  artist_limit = 4
+  song_limit = 2
+elsif ARGV.length == 2
+  artist_limit = ARGV[1]
+  song_limit = 2
+else
+  artist_limit = ARGV[1]
+  song_limit = ARGV[2]
+end
+artist = artist.downcase.tr(" ", "+")
+puts "looking up artists similar to #{artist}"
+doc = Nokogiri::HTML(open("http://www.last.fm/music/#{artist}/+similar"))
+artists = doc.css("h3.remove-bottom-margin")
+
+processes = []
+puts "attempting to download:"
+(0...artist_limit.to_i).each do |i|
+  puts artists[i].content
+  processes << Process.fork do
+    response = %x( songs "#{artists[i].content}" #{song_limit} )
+    puts response
+    exit
+  end
+end
+
+puts "parent, pid #{Process.pid}, waiting on children #{processes.inspect}"
+Process.waitall
+puts "parent exiting"
