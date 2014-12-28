@@ -8,12 +8,16 @@ Downloads songs from youtube, imports proper meta-data and album art, adds to iT
 song "bonobo kiara"
 songs "taylor swift"
 album "in rainbows"
+soundslike "flying lotus"
 ```
 
 * song "title and artist" :: downloads an individual track
 * songs "artist" :: downloads the top 10 (default) tracks for an artist (based on last.fm for the last 6 months)
 	* specify a different amount of songs to download with:: songs "artist name" [number]
 * album "title" :: downloads album. album artist is optional but necessary to differentiate albums with similar names.
+* soundslike "artist" :: downloads top songs of similar artists
+  * specify amount of similar artists and amount of songs for each
+  * soundslike "U2" 6 10 :: will download the top 10 songs for the 6 most similar artists = 60 songs!
 
 ## Installation
 
